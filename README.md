@@ -10,7 +10,7 @@ RF05 - O sistema deve permitir o gerenciamento de vendas.
 RF06 - O sistema deve permitir o gerenciamento de promissórias. 
 RF07 - O sistema deve permitir o gerenciamento de histórico de compras de cada cliente.
 
-Requisitos não funcionarios 
+Requisitos não funcionais 
 RNF01 - O sistema deve possuir interface simples e intuitiva.
 RNF02 - O sistema deve estar sempre disponível.  
 RNF03 - O sistema deve suportar aumento de produtos e usuários sem perda de desempenho.
