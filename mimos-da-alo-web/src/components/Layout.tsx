@@ -29,13 +29,8 @@ export function Layout({ title, subtitle, actions, children }: { title: string; 
     <div className="flex min-h-screen bg-cream">
       <aside className="flex w-64 shrink-0 flex-col border-r border-sand bg-surface">
         <div className="flex items-center gap-2.5 border-b border-sand px-6 py-6">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-wine text-cream">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 3c-1.5 2-1.5 4 0 6-1.5-2-3.5-2-5 0s0 4 2 5c-2.5-.5-4.5.5-5 3 .5-2.5-.5-4.5-3-5 2.5.5 4.5-.5 5-3-2 1-4 1-6-.5C1.5 6.5 3.5 4.5 6 5c-.5-2.5.5-4.5 3-5-2.5.5-4.5-.5-5-3 2.5.5 4.5-.5 5-3-1 2-1 4 .5 6C10 2 12 2 12 3z"
-                fill="currentColor"
-              />
-            </svg>
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-wine text-cream text-lg">
+            🎀
           </span>
           <div className="leading-tight">
             <p className="font-display text-lg font-medium italic text-wine-dark">Mimos da Alô</p>
