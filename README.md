@@ -22,7 +22,7 @@ Rodar `npm prisma:seed` cria automaticamente:
 - 1 venda à vista (PIX)
 - 1 venda parcelada em promissória (3 parcelas), com a **1ª parcela propositalmente vencida**, para você testar o fluxo de notificação de atraso chamando `POST /notifications/run-overdue-check`
 
-Pode rodar o seed quantas vezes quiser — ele não duplica os registros.
+Pode rodar o seed quantas vezes quiser, ele não duplica os registros.
 
 ## Mapeamento dos Requisitos Funcionais
 
