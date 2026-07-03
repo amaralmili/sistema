@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Builds
+dist/
+mimos-da-alo-api/public/*
+!mimos-da-alo-api/public/.gitkeep
+
+# Ambiente
+.env
+.env.local
+
+# Prisma (gerado automaticamente por `prisma generate`)
+mimos-da-alo-api/src/generated/
+
+# Editor / SO
+.vscode/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
