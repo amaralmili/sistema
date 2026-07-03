@@ -1,0 +1,8 @@
+{
+  "_descricao": "POST /products - cadastra um produto",
+  "name": "Perfume Encanto 100ml",
+  "description": "Fragrância floral amadeirada de longa duração",
+  "category": "PERFUME",
+  "priceInCents": 8990,
+  "stockQuantity": 15
+}

@@ -1,0 +1,13 @@
+{
+  "_descricao": "POST /sales - venda parcelada em promissória, gera as parcelas automaticamente (RF06)",
+  "customerId": "COLE_AQUI_O_ID_DO_CLIENTE",
+  "paymentMethod": "PROMISSORIA",
+  "items": [
+    { "productId": "COLE_AQUI_O_ID_DO_PRODUTO", "quantity": 1 }
+  ],
+  "installmentPlan": {
+    "numberOfInstallments": 3,
+    "firstDueDate": "2026-08-01",
+    "intervalInDays": 30
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "_descricao": "POST /customers - cadastra um cliente",
+  "name": "Maria Silva",
+  "document": "11122233344",
+  "phone": "(18) 99999-0001",
+  "email": "maria.silva@example.com",
+  "address": "Rua das Flores, 123 - Santo Anastácio/SP"
+}

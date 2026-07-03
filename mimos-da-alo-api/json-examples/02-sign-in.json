@@ -1,0 +1,5 @@
+{
+  "_descricao": "POST /api/auth/sign-in/email - login com usuário já existente",
+  "email": "admin@mimosdaalo.com",
+  "password": "senha123456"
+}

@@ -1,0 +1,8 @@
+{
+  "_descricao": "POST /sales - venda à vista (PIX, DINHEIRO ou CARTAO). Troque os productId/customerId pelos ids reais retornados nos cadastros.",
+  "customerId": "COLE_AQUI_O_ID_DO_CLIENTE",
+  "paymentMethod": "PIX",
+  "items": [
+    { "productId": "COLE_AQUI_O_ID_DO_PRODUTO", "quantity": 1 }
+  ]
+}

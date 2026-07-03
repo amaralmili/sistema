@@ -1,0 +1,6 @@
+{
+  "_descricao": "POST /api/auth/sign-up/email - cria o usuário do sistema e já loga (retorna cookie de sessão)",
+  "name": "Admin Mimos da Alô",
+  "email": "admin@mimosdaalo.com",
+  "password": "senha123456"
+}

@@ -1,0 +1,4 @@
+{
+  "_descricao": "PATCH /promissories/installments/:installmentId/pay - registra o pagamento de uma parcela. O corpo é opcional (se omitido, usa a data/hora atual).",
+  "paidAt": "2026-07-01T14:30:00.000Z"
+}
