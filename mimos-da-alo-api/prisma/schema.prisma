@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ----------------------------------------------------------------
+// AUTENTICAÇÃO (Better Auth) - RF01
+// ----------------------------------------------------------------
+
+model User {
+  id            String   @id
+  name          String
+  email         String
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+  sales    Sale[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ----------------------------------------------------------------
+// CLIENTES - RF03 / RF07
+// ----------------------------------------------------------------
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  document  String? // CPF
+  phone     String
+  email     String?
+  address   String?
+  notes     String?
+  createdAt DateTime @default(now()) @db.Timestamptz()
+  updatedAt DateTime @updatedAt @db.Timestamptz()
+
+  sales         Sale[]
+  notifications Notification[]
+
+  @@unique([document])
+  @@map("customer")
+}
+
+// ----------------------------------------------------------------
+// PRODUTOS - RF02
+// ----------------------------------------------------------------
+
+enum ProductCategory {
+  COSMETICO
+  JOIA
+  PERFUME
+  ACESSORIO
+}
+
+model Product {
+  id            String          @id @default(uuid())
+  name          String
+  description   String?
+  category      ProductCategory
+  brand         String?
+  priceInCents  Int
+  stockQuantity Int             @default(0)
+  imageUrl      String?
+  isActive      Boolean         @default(true)
+  createdAt     DateTime        @default(now()) @db.Timestamptz()
+  updatedAt     DateTime        @updatedAt @db.Timestamptz()
+
+  saleItems SaleItem[]
+
+  @@map("product")
+}
+
+// ----------------------------------------------------------------
+// VENDAS - RF05
+// ----------------------------------------------------------------
+
+enum PaymentMethod {
+  DINHEIRO
+  CARTAO
+  PIX
+  PROMISSORIA
+}
+
+enum SaleStatus {
+  CONCLUIDA
+  CANCELADA
+}
+
+model Sale {
+  id              String        @id @default(uuid())
+  customerId      String
+  customer        Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  sellerId        String
+  seller          User          @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  paymentMethod   PaymentMethod
+  status          SaleStatus    @default(CONCLUIDA)
+  discountInCents Int           @default(0)
+  totalInCents    Int
+  items           SaleItem[]
+  promissory      Promissory?
+  createdAt       DateTime      @default(now()) @db.Timestamptz()
+  updatedAt       DateTime      @updatedAt @db.Timestamptz()
+
+  @@map("sale")
+}
+
+model SaleItem {
+  id               String  @id @default(uuid())
+  saleId           String
+  sale             Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId        String
+  product          Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity         Int
+  unitPriceInCents Int
+
+  @@map("sale_item")
+}
+
+// ----------------------------------------------------------------
+// PROMISSÓRIAS - RF06 / RF04
+// ----------------------------------------------------------------
+
+enum InstallmentStatus {
+  PENDENTE
+  PAGA
+  ATRASADA
+}
+
+model Promissory {
+  id            String       @id @default(uuid())
+  saleId        String       @unique
+  sale          Sale         @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  totalInCents  Int
+  installments  Installment[]
+  createdAt     DateTime     @default(now()) @db.Timestamptz()
+  updatedAt     DateTime     @updatedAt @db.Timestamptz()
+
+  @@map("promissory")
+}
+
+model Installment {
+  id              String            @id @default(uuid())
+  promissoryId    String
+  promissory      Promissory        @relation(fields: [promissoryId], references: [id], onDelete: Cascade)
+  number          Int // número da parcela (1, 2, 3...)
+  amountInCents   Int
+  dueDate         DateTime          @db.Date
+  status          InstallmentStatus @default(PENDENTE)
+  paidAt          DateTime?         @db.Timestamptz()
+  notifications   Notification[]
+  createdAt       DateTime          @default(now()) @db.Timestamptz()
+  updatedAt       DateTime          @updatedAt @db.Timestamptz()
+
+  @@unique([promissoryId, number])
+  @@map("installment")
+}
+
+// ----------------------------------------------------------------
+// NOTIFICAÇÕES DE ATRASO - RF04
+// ----------------------------------------------------------------
+
+model Notification {
+  id            String      @id @default(uuid())
+  customerId    String
+  customer      Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  installmentId String
+  installment   Installment @relation(fields: [installmentId], references: [id], onDelete: Cascade)
+  message       String
+  sentAt        DateTime    @default(now()) @db.Timestamptz()
+
+  @@map("notification")
+}
